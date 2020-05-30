@@ -2,11 +2,11 @@ var stopwatchController = (function(){
 
 	var data = {
 		time: {
-			estimatedDuration: 10, /*30 minutes in seconds*/
+			estimatedDuration: 20, /*30 minutes in seconds*/
 			targetDate: 0,
 			dateAtStart: 0,
 			timeAtPause: 0,
-			newTargetDate: 0
+			timeAtEnd: 0
 		}
 
 	};
@@ -21,7 +21,7 @@ var stopwatchController = (function(){
 			// get current time
 			const targetDate = new Date();
 			const dateAtStart = new Date();			
-			console.log(`estimage duration of task: ${data.time.estimatedDuration}`);
+			console.log(`starting timer for ${data.time.estimatedDuration} seconds`);
 			data.time.dateAtStart = dateAtStart;
 
 
@@ -32,20 +32,14 @@ var stopwatchController = (function(){
 			data.time.targetDate = targetDate;
 		},
 
-		getNewTargetDate: function() {
-
-		},
 
 		getDifference: function(target) {
 
 			const current = new Date();
 
-			// console.log(`current date: ${current}`);
-			// console.log(`targetDate: ${target}`);
 
 			// calculate the difference between current time and target time in milliseconds
 			const diffTime = Math.abs(target - current);
-			// console.log(`diffTime ${diffTime}`);
 			const diffSecs = Math.ceil(diffTime / (1000));
 
 			console.log(`${diffSecs}`);
@@ -55,12 +49,22 @@ var stopwatchController = (function(){
 		},
 
 
-		getPausedDate: function() {
+		getPausedDate: function(storageLocation) {
 			const pausedDate = new Date();
-			data.time.timeAtPause = pausedDate;
+			if (storageLocation === "pause") {
 
-			console.log(`paused date is: ${data.time.timeAtPause}`);
+				console.log(`PAUSED`);
+				console.log(`Click on resume to continue your activity or click on stop if you have finished`);
 
+				data.time.timeAtPause = pausedDate;
+
+			} else if (storageLocation === "stop") {
+
+				console.log(`STOPPED`);	
+
+				data.time.timeAtEnd = pausedDate;
+
+			}
 
 		},
 
@@ -70,6 +74,23 @@ var stopwatchController = (function(){
 			newTarget.setSeconds(newTarget.getSeconds() + durationToAdd);
 
 			return newTarget;
+		},
+
+		getStats: function() {
+
+			// calculate the time overview or underdue
+			const diffTime = Math.abs(data.time.targetDate - data.time.timeAtEnd);
+			const diffSecs = Math.ceil(diffTime / (1000));
+
+			if (data.time.timeAtEnd > data.time.targetDate) {
+				const text = `you finished ${diffSecs} seconds late loser`;				
+			} else {
+				console.log(`you finished ${diffSecs} seconds early you are really really awesome`);
+			}			
+
+			console.log(`Click on start to start the activity again`);			
+			
+
 		}
 
 
@@ -94,8 +115,10 @@ var UIController = (function(){
 		timerButtons: {
 			start: "#start",
 			pause: "#pause",
-			resume: "#resume"
-		}
+			resume: "#resume",
+			stop: "#stop"
+		},
+		results: "results"
 	};
 
 	return {
@@ -118,75 +141,77 @@ var globalController = (function(stpwchCtrl, UICtrl){
 
 	const timeCompletion = controllerData.time.estimatedDuration;
 
-	var setUpEventListeners = function() {
-		console.log("event listeners set up successfully");
 
+
+
+	var setUpEventListeners = function() {
 		document.querySelector(DOM.timerButtons.start).addEventListener("click", startTimer);
 		document.querySelector(DOM.timerButtons.resume).addEventListener("click", resumeTimer);		
 	};
 
 	var startTimer = function() {
 
-
-		document.querySelector(DOM.timerButtons.pause).addEventListener("click", pause);
-		// document.querySelector(DOM.timerButtons.stop_and_save).addEventListener("click", stop);
-
-
 		// get the target date and save that specific date in storage of a data
 		stpwchCtrl.getTargetDate(timeCompletion);
 
-		console.log(`initial target date: ${controllerData.time.targetDate}`);
-
-		// get the difference between the current date and the target date every second and display the result in the console
-		const countDown = setInterval(function() {stpwchCtrl.getDifference(controllerData.time.targetDate);}, 1000); 
-		console.log(`type of countdown ${typeof countDown}`);
-
-		function pause() {
-			pauseFunction(countDown);
-		}
-
-
+		// start the timer 
+		timerControls(controllerData.time.targetDate);
 
 	};
-
-	var pauseFunction = function(number) {
-		// pause the countdown
-		clearInterval(number);
-
-		// get the date at which the timer was paused
-		stpwchCtrl.getPausedDate();
-	};
-
-
-
 
 
 	var resumeTimer = function() {
 
-		document.querySelector(DOM.timerButtons.pause).addEventListener("click", pauseFromResume);
-		// document.querySelector(DOM.timerButtons.stop_and_save).addEventListener("click", stop);
-
-
 		// get the time that happened during user pause
 		const durationPause = stpwchCtrl.getDifference(controllerData.time.timeAtPause);
+
+		console.log(`You paused your timer for ${durationPause} seconds. Get back to work!`);
 
 		// set new final date
 		const newTargetDate = stpwchCtrl.addToDate(controllerData.time.targetDate, durationPause);
 
-		console.log(`new target date after pause: ${newTargetDate}`);
-
-		// start the timer again with the updated target date
-		const countDown = setInterval(function() {stpwchCtrl.getDifference(newTargetDate);}, 1000);
-
-		function pauseFromResume() {
-			pauseFunction(countDown);
-		}		
+		// start the timer 
+		timerControls(newTargetDate);		
 
 	};
 
 
-	var pauseTimer = function() {
-		stpwchCtrl.getPausedDate();
+	var timerControls = function(target) {
+		document.querySelector(DOM.timerButtons.pause).addEventListener("click", pause);
+		document.querySelector(DOM.timerButtons.stop).addEventListener("click", stop);
+
+		// get the difference between the current date and the target date every second and display the result in the console		
+		const countDown = setInterval(function() {stpwchCtrl.getDifference(target);}, 1000);
+
+
+		// trigger the pause of the counter if event has been called
+		function pause() {
+			pauseFunction(countDown, "pause");
+		}
+
+
+		function stop() {
+			// pause the counter and save the time in the storage of data as the completed Date
+			pauseFunction(countDown, "stop");
+
+			// check to see if user finished early or late calculate the time overdue or underdue and save
+			stpwchCtrl.getStats();
+
+		}
+
+	};
+
+
+
+	var pauseFunction = function(number, actionType) {
+
+		// pause the countdown
+		clearInterval(number);
+
+		// get the date at which the timer was paused
+		stpwchCtrl.getPausedDate(actionType);
+
+
 	};
 
 
@@ -197,9 +222,6 @@ var globalController = (function(stpwchCtrl, UICtrl){
 
 			setUpEventListeners();
 
-			console.log(`placeholder for time of completion of task: ${controllerData.time.estimatedDuration} seconds`);
-
-			// stpwchCtrl.startupApp();
 
 		}
 	} 
