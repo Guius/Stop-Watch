@@ -2,7 +2,7 @@ var stopwatchController = (function(){
 
 	var data = {
 		time: {
-			estimatedDuration: 1800, /*30 minutes in seconds*/
+			estimatedDuration: 10, /*30 minutes in seconds*/
 			targetDate: 0,
 			dateAtStart: 0,
 			timeAtPause: 0,
@@ -127,7 +127,9 @@ var globalController = (function(stpwchCtrl, UICtrl){
 
 	var startTimer = function() {
 
+
 		document.querySelector(DOM.timerButtons.pause).addEventListener("click", pause);
+		// document.querySelector(DOM.timerButtons.stop_and_save).addEventListener("click", stop);
 
 
 		// get the target date and save that specific date in storage of a data
@@ -137,28 +139,32 @@ var globalController = (function(stpwchCtrl, UICtrl){
 
 		// get the difference between the current date and the target date every second and display the result in the console
 		const countDown = setInterval(function() {stpwchCtrl.getDifference(controllerData.time.targetDate);}, 1000); 
+		console.log(`type of countdown ${typeof countDown}`);
 
 		function pause() {
-			console.log(`PAUSE`);
-			clearInterval(countDown);
-
-			pauseTimer();
+			pauseFunction(countDown);
 		}
 
 
+
 	};
 
+	var pauseFunction = function(number) {
+		// pause the countdown
+		clearInterval(number);
 
-
-	var pauseTimer = function() {
+		// get the date at which the timer was paused
 		stpwchCtrl.getPausedDate();
 	};
+
+
+
 
 
 	var resumeTimer = function() {
 
 		document.querySelector(DOM.timerButtons.pause).addEventListener("click", pauseFromResume);
-
+		// document.querySelector(DOM.timerButtons.stop_and_save).addEventListener("click", stop);
 
 
 		// get the time that happened during user pause
@@ -173,13 +179,16 @@ var globalController = (function(stpwchCtrl, UICtrl){
 		const countDown = setInterval(function() {stpwchCtrl.getDifference(newTargetDate);}, 1000);
 
 		function pauseFromResume() {
-			console.log(`PAUSE`);
-			clearInterval(countDown);
-
-			pauseTimer();
+			pauseFunction(countDown);
 		}		
 
 	};
+
+
+	var pauseTimer = function() {
+		stpwchCtrl.getPausedDate();
+	};
+
 
 
 	return {
