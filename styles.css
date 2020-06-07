@@ -1,0 +1,281 @@
+
+html{
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin-bottom: 120px; /* Margin bottom by footer height */
+    overflow-x: hidden; 
+  }
+
+main {
+    font-family: 'Work Sans', sans-serif;
+}
+
+.container-fluid {
+    width: 95%;
+}
+
+main header h1 {
+    font-size: 90px;
+    font-weight: 300 !important;
+    color: #3399ff;
+}
+
+main header img {
+    width: 80px;
+    height: 80px;
+}
+
+main .header-bottom h1 {
+    font-size: 80px;
+    color:#063365;
+    font-weight: 300 !important;
+
+}
+
+main .nav_top .plus p {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #f3c126;
+    position: relative;
+    -webkit-box-shadow: 0px 14px 10px -10px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 14px 10px -10px rgba(0,0,0,0.75);
+    box-shadow: 0px 14px 10px -10px rgba(0,0,0,0.75);}
+
+main .nav_top .plus p svg {
+    position: absolute;
+    top: 13%;
+    right: 15%;
+    font-size: 40px;
+    color: white
+}
+
+main .nav_top .show_button button {
+    background: #3399ff;
+    color: white;
+    border-radius: 10px;
+}
+
+nav .buttons {
+    font-size: 22px !important;
+    background: #f2f2f2 !important;
+    color:#063365;
+    font-weight: 300 !important;
+    border-bottom: 1.5px solid #808080 ;
+    border-radius: 0 !important;
+
+}
+
+nav .buttons button {
+    font-size: 22px !important;
+    color: #000033;
+    font-weight: 300 !important;
+
+}
+section{
+    color:#063365;
+
+}
+
+.todo {
+    background: #3399ff;
+    color: white;
+    justify-content: center;
+    height: 80px !important;
+    font-weight: 300;
+
+}
+
+.todo_red {
+    background: #d98c8c;
+}
+
+.todo_green {
+
+    background: #5decb7;
+}
+
+.todo_go {
+    line-height: 18px;
+    background: #617e99;
+    height: 70px !important;
+    width: 30px!important;
+    border-radius: 7px;
+    text-align: left!important;
+}
+
+.main_row {
+    margin: 0 1px;
+    background: #f2f2f2;
+    color: black;
+    border-left: 4px solid #3399ff;
+    
+}
+
+.main_row_red {
+
+    border-left: 4px solid #d98c8c;
+}
+
+.main_row_green {
+    border-left: 4px solid #5decb7;
+}
+.footer-button button{
+   padding:20px 35px;
+    font-size: 16px;
+    background:#f2f2f2 ;
+    border:2px solid #808080;
+    border-radius:0px;
+    margin: 5px 10px;
+    color:#063365;
+    font-weight: 500!important;
+}
+footer{
+    position: absolute;
+    bottom: 0;
+    height: min-content; /* Set the fixed height of the footer here */
+    line-height: min-content;
+    width: 100%;
+    background: #f2f2f2;
+}
+
+
+.half-size-big {
+    width: 50vw;
+    position: absolute;
+    left: 45vw;
+    top: 330px;
+    max-height: 400px;
+}
+
+.half-size-small {
+    width: 39vw;
+    float: left;    
+}
+
+.black {
+    background-color: black;
+}
+
+.yellow {
+    background-color: yellow;    
+}
+
+
+.f-33 {
+    font-size: 33pt;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.title-table {
+    background-color: #49dcbb;
+}
+
+
+.row-table {
+    background-color: #ebedef;
+    border-bottom: solid #d1d2d4 4px;
+    border-left: solid white 4px;
+    margin-top: 15px;    
+}
+
+.center-row {
+    margin-top: 2px;
+    margin-bottom: 2px;    
+    padding-top: 4px;
+    padding-bottom: 4px;    
+    font-size: 16pt;
+    color: #1A375C;
+}
+
+.table-positioning {
+    margin-top: 100px;
+}
+
+
+.aligning-with-table {
+    margin-left: 30px;
+}
+
+
+.green-circle {
+    background-image: url(files_el/green_circle.png);
+    /* Full height */
+    height: 60%; 
+    width: 60%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    /*background-size: cover;     */
+}
+
+
+.square {
+    border: solid 5px black;
+}
+
+
+.align-in-circle-1 {
+    margin-top: 100px;
+    margin-bottom: 0px;
+    font-size: 33pt;    
+}
+
+.time-font {
+    color: #1A375C;
+}
+
+
+.align-in-circle-2 {
+    margin-top: 0px;
+    font-size: 16pt;
+}
+
+
+.btn-circle.btn-sm { 
+    width: 30px; 
+    height: 30px; 
+    padding: 6px 0px; 
+    border-radius: 15px; 
+    font-size: 8px; 
+    text-align: center; 
+} 
+.btn-circle.btn-md { 
+    width: 50px; 
+    height: 50px; 
+    padding: 7px 10px; 
+    border-radius: 25px; 
+    font-size: 10px; 
+    text-align: center; 
+} 
+.btn-circle.btn-xl { 
+    width: 80px; 
+    height: 80px; 
+    padding: 10px 16px; 
+    border-radius: 35px; 
+    font-size: 15pt; 
+    text-align: center; 
+}
+
+
+.btn-stop {
+    background-color: #ff8683;
+}
+
+.btn-start {
+    background-color: #49dcbb; 
+}
+
+
+.hidden {
+    display: none;
+}
+
+.positionPlay {
+    margin-left: 550px;
+}

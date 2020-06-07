@@ -2,11 +2,15 @@ var stopwatchController = (function(){
 
 	var data = {
 		time: {
-			estimatedDuration: 20, /*30 minutes in seconds*/
+			estimatedDuration: 10, /*30 minutes in seconds*/
 			targetDate: 0,
 			dateAtStart: 0,
 			timeAtPause: 0,
 			timeAtEnd: 0
+		},
+		button: {
+			replacementButtons: "<button class='btn btn-start btn-circle btn-xl' id='start'>Start</button><button class='btn btn-stop btn-circle btn-xl' id='stop'>Stop</button><button class='btn btn-warning btn-circle btn-xl' id='%id%'>%name%</button>",
+			paused: 0
 		}
 
 	};
@@ -33,19 +37,55 @@ var stopwatchController = (function(){
 		},
 
 
-		getDifference: function(target) {
+
+
+		getDifference: function(target, actionType) {
 
 			const current = new Date();
+
 
 
 			// calculate the difference between current time and target time in milliseconds
 			const diffTime = Math.abs(target - current);
 			const diffSecs = Math.ceil(diffTime / (1000));
 
-			console.log(`${diffSecs}`);
+			if (actionType === "play") {
+
+				// convert diffSecs into a time to display: ddd:hh:mm:ss	
+				stopwatchController.convertTimeFormat(diffSecs);
+
+				// change the color of the timer to red if time goes to negative
+				if (diffSecs === 1) {
+					setTimeout(UIController.changeToRed, 1000);
+				}
+			}
+
 
 			return diffSecs;
 
+		},
+
+		convertTimeFormat: function(time) {
+				// 1. Find the number of hours:
+				const hours = Math.floor(time / 3600); 
+
+				// 2. Find the number of minutes minus the number of hours
+				const minutes = Math.floor((time / 60) - (hours*60));
+
+				// 3. Find the number of seconds minus the number of minutes and hours 
+				const seconds = Math.floor(time - ((minutes*60) + (hours*3600)));
+
+				// concatenate the result into a unified string
+				// 1. convert all the results into strings
+				hoursString = hours.toString();
+				minutesString = minutes.toString();
+				secondsString = seconds.toString();
+
+				// 2. concatente the result and store into variable
+				const convertedDate = `${hoursString} : ${minutesString} : ${secondsString}`;
+
+				// display in the DOM the Time
+				UIController.displayTime(convertedDate);
 		},
 
 
@@ -55,8 +95,16 @@ var stopwatchController = (function(){
 
 				console.log(`PAUSED`);
 				console.log(`Click on resume to continue your activity or click on stop if you have finished`);
-
+				// store the paused date in the storage of data
 				data.time.timeAtPause = pausedDate;
+
+				// // change the status of paused to 1
+				// data.button.paused = 1;
+				// console.log(`status: ${data.button.paused}`);
+
+				// // change the button pause to resume
+				// UIController.changeToResume();
+
 
 			} else if (storageLocation === "stop") {
 
@@ -83,15 +131,15 @@ var stopwatchController = (function(){
 			const diffSecs = Math.ceil(diffTime / (1000));
 
 			if (data.time.timeAtEnd > data.time.targetDate) {
-				const text = `you finished ${diffSecs} seconds late loser`;				
+				console.log(`you finished ${diffSecs} seconds late loser`);				
 			} else {
 				console.log(`you finished ${diffSecs} seconds early you are really really awesome`);
 			}			
 
 			console.log(`Click on start to start the activity again`);			
-			
 
-		}
+
+		},
 
 
 
@@ -115,16 +163,47 @@ var UIController = (function(){
 		timerButtons: {
 			start: "#start",
 			pause: "#pause",
+			pause_id: "pause",
 			resume: "#resume",
+			resume_id: "resume",
 			stop: "#stop"
 		},
-		results: "results"
+		results: "results",
+		change_resume: "change-resume",
+		time_on_clock: "time-on-clock"
 	};
 
 	return {
 		getDOMStrings: function() {
 			return DOMStrings;
 		},
+
+		hidePlayButton: function() {
+			document.getElementById(DOMStrings.timerButtons.pause_id).style.display = "none";
+			document.getElementById(DOMStrings.timerButtons.resume_id).style.display = "block";
+		},
+
+		showPlayButton: function() {
+			document.getElementById(DOMStrings.timerButtons.pause_id).style.display = "block";
+			document.getElementById(DOMStrings.timerButtons.pause_id).style.marginLeft = "550px";
+			document.getElementById(DOMStrings.timerButtons.resume_id).style.display = "none";			
+		},
+
+		displayTime: function(time) {
+			document.getElementById(DOMStrings.time_on_clock).innerHTML = time;
+		},
+
+		endTimer: function() {
+			document.getElementById(DOMStrings.time_on_clock).innerHTML = "finished";			
+		},
+
+		changeToRed: function() {
+			document.getElementById(DOMStrings.time_on_clock).style.color = "red";
+		},
+
+		displayPause: function() {
+			document.getElementById(DOMStrings.time_on_clock).innerHTML = "Paused";
+		}
 
 	}
 
@@ -163,7 +242,7 @@ var globalController = (function(stpwchCtrl, UICtrl){
 	var resumeTimer = function() {
 
 		// get the time that happened during user pause
-		const durationPause = stpwchCtrl.getDifference(controllerData.time.timeAtPause);
+		const durationPause = stpwchCtrl.getDifference(controllerData.time.timeAtPause, "resume");
 
 		console.log(`You paused your timer for ${durationPause} seconds. Get back to work!`);
 
@@ -171,17 +250,25 @@ var globalController = (function(stpwchCtrl, UICtrl){
 		const newTargetDate = stpwchCtrl.addToDate(controllerData.time.targetDate, durationPause);
 
 		// start the timer 
-		timerControls(newTargetDate);		
+		timerControls(newTargetDate);	
+
+		// reverse back the buttons
+		UICtrl.showPlayButton(); 
 
 	};
 
 
 	var timerControls = function(target) {
-		document.querySelector(DOM.timerButtons.pause).addEventListener("click", pause);
+		if (controllerData.button.paused === 0) {
+			document.querySelector(DOM.timerButtons.pause).addEventListener("click", pause);
+		}
+		// document.querySelector(DOM.timerButtons.pause).addEventListener("click", resumeTimer);
 		document.querySelector(DOM.timerButtons.stop).addEventListener("click", stop);
 
+		var timeToDisplay;
+
 		// get the difference between the current date and the target date every second and display the result in the console		
-		const countDown = setInterval(function() {stpwchCtrl.getDifference(target);}, 1000);
+		const countDown = setInterval(function() {timeToDisplay = stpwchCtrl.getDifference(target, "play");}, 1000);
 
 
 		// trigger the pause of the counter if event has been called
@@ -194,8 +281,13 @@ var globalController = (function(stpwchCtrl, UICtrl){
 			// pause the counter and save the time in the storage of data as the completed Date
 			pauseFunction(countDown, "stop");
 
+			// change the DOM to finish message
+			UICtrl.endTimer();
+
 			// check to see if user finished early or late calculate the time overdue or underdue and save
 			stpwchCtrl.getStats();
+
+			console.log(`time at end: ${controllerData.time.timeAtEnd}`);
 
 		}
 
@@ -208,8 +300,15 @@ var globalController = (function(stpwchCtrl, UICtrl){
 		// pause the countdown
 		clearInterval(number);
 
+		console.log(`status: ${controllerData.button.paused}`);
+		// hide the play button
+		UICtrl.hidePlayButton();
+
 		// get the date at which the timer was paused
 		stpwchCtrl.getPausedDate(actionType);
+
+		// display "paused"
+		UICtrl.displayPause();
 
 
 	};
@@ -222,6 +321,7 @@ var globalController = (function(stpwchCtrl, UICtrl){
 
 			setUpEventListeners();
 
+			stpwchCtrl.convertTimeFormat(controllerData.time.estimatedDuration);
 
 		}
 	} 
