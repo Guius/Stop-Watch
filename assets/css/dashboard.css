@@ -1,0 +1,71 @@
+/*Dashboard styles*/
+
+.dashboard-main {
+    background-color: white;
+}
+
+.dashboard-header {
+    background-color: white;
+    width: 100%;
+    padding-bottom: 8em;
+    font-weight: 250;
+
+}
+
+.dashboard-tile {
+    padding: 30px 30px 30px 30px;
+}
+
+.dashboard-tile-column {
+    background-color: white;
+    color: #6499FF;
+    padding-top:5px;
+}
+
+.dashboard-tile-title {
+    font-size: 1.5em;
+}
+
+.headlinefigure {
+    font-size: 7rem;
+    font-weight: 100;
+}
+
+.floating-stat {
+    color: white;
+}
+
+.clockface {
+    height: 190px;
+    width: 190px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    border: 5px solid #FFC55F ;
+    flex-direction: column;
+    border-radius: 190px;
+}
+
+#time-on-clock {
+    font-size: 1.5rem;
+}
+
+#dashboard-dashboard {
+    background-color: #6499FF;
+}
+
+
+#badges-title {
+    padding-left: 30px;
+    font-size: 2em;
+}
+
+.tile-bottom {
+    padding-bottom: 50px;
+}
+
+.dashboard-tile-subtitle {
+    font-size: 1.2em;
+}
+

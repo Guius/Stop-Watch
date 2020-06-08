@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="assets/css/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
           rel="stylesheet">
-    <script src="./index.js"></script>
+    <script src="./counter.js"></script>
     <link rel="stylesheet" href="./assets/HoldOn.min.css">
     <script src="./assets/HoldOn.min.js"></script>
 </head>
@@ -32,127 +32,103 @@
     <div class="mt-5 header-bottom">
         <h1>Mon 1 June</h1>
     </div>
-    <div class="nav_top d-flex ">
-        <div class="plus d-flex">
-            <p type="button" data-toggle="modal" data-target="#myModal">
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                     width="50" height="50"
-                     viewBox="0 0 172 172"
-                     style=" fill:#000000;">
-                    <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
-                       stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
-                       font-family="none" font-weight="none" font-size="none" text-anchor="none"
-                       style="mix-blend-mode: normal">
-                        <path d="M0,172v-172h172v172z" fill="none"></path>
-                        <g fill="#ffffff">
-                            <path d="M82.56,30.96v51.6h-51.6v6.88h51.6v51.6h6.88v-51.6h51.6v-6.88h-51.6v-51.6z"></path>
-                        </g>
-                    </g>
-                </svg>
-            </p>
-            <span class="mt-4 ml-2">Add new project</span>
+
+    <section style="text-align: center;" class="mt-2">
+        <div class="row my-3">
+            <div class="col-6 my-auto">
+                <div class="row my-3 py-3 counter_row_first">
+                    <p class="mx-auto">In Progress: On Track</p>
+                </div>
+                <div class="row my-3 counter_row_second">
+                    <div class="col-6 py-1 br my-auto">Client : </div>
+                    <div id="client" class="col-6 text-left py-1 bl my-auto">...</div>
+                </div>
+                <div class="row my-3 counter_row_second">
+                    <div class="col-6 py-1 br my-auto">Project : </div>
+                    <div id="project" class="col-6 text-left py-1 bl my-auto">...</div>
+                </div>
+                <div class="row my-3 counter_row_second">
+                    <div class="col-6 py-1 br my-auto">Task : </div>
+                    <div id="name" class="col-6 text-left py-1 bl my-auto">...</div>
+                </div>
+                <div class="row my-3 counter_row_second">
+                    <div class="col-6 py-1 br my-auto">Due date : </div>
+                    <div id="due" class="col-6 text-left py-1 bl my-auto">...</div>
+                </div>
+                <div class="row my-3 counter_row_second">
+                    <div class="col-6 py-1 br my-auto">Time allocated : </div>
+                    <div id="allocated" class="col-6 text-left py-1 bl my-auto">...</div>
+                </div>
+            </div>
+            
+            <div class="col-6 my-auto">
+                <div class="green-circle mx-auto">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p class="align-in-circle-1 time-font" id="time-on-clock">00:00:00</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p class="align-in-circle-2 time-font">Hours Minutes Seconds</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <div id="change-resume">
+                                <button class="btn btn-start btn-circle btn-xl" id="start">
+                                   <p class="fa fa-play my-auto"></p>
+                                </button>
+                                <button class="btn btn-stop btn-circle btn-xl" id="stop">
+                                    <p class="fa fa-stop my-auto"></p>
+                                </button>
+                                <button class="btn btn-warning btn-circle btn-xl" id="pause">
+                                    <p class="fa fa-pause my-auto"></p>
+                                </button>                    
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
         </div>
-        <div class="show_button ml-auto">
-            <button type="button" class="btn filter-button" data-filter="all"> All</button>
-            <button type="button" class="btn filter-button" data-filter="1"> In Progress </button>
-            <button type="button" class="btn mx-2 filter-button" data-filter="0">To Do</button>
-            <button type="button" class="btn filter-button" data-filter="2">Completed</button>
+    </section>
+    
+
+
+</div>
+<footer class="p-1 ">
+    <div class="footer-button ml-4 d-flex">
+        <a href="index.html" class="col-3 text-center">
+            <button class="btn btn-default">
+                <img src="assets/img/projects-button.png">
+                <p>Projects</p>
+            </button>
+        </a>
+        <div class="col-3 text-center">
+            <button class="btn btn-default">
+                <img src="assets/img/peoples-button.png">
+                <p>People</p>
+            </button>
         </div>
+        <a href="dashboard.html" class="col-3 text-center">
+            <button class="btn btn-default">
+                <img src="assets/img/dashboard-button.png">
+                <p>Dashboard</p>                        
+            </button>
+        </a>
+        <div class="col-3 text-center">
+            <button class="btn btn-default">
+                <img src="assets/img/reports-button.png">
+                <p>Report</p>                        
+            </button>                    
+        </div>                
+    
     </div>
-    <nav>
-        <div class="row text-center">
-            <div class="col-2">
-                <div class="buttons">
-                    <button type="button" class="py-1 btn ">Client</button>
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="buttons">
-                    <button type="button" class="py-1 btn">Project</button>
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="buttons">
-                    <button type="button" class="py-1 btn">Task</button>
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="buttons">
-                    <button type="button" class="py-1 btn">Due date</button>
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="buttons">
-                    <button type="button" class="py-1 btn">Time allocated</button>
-                </div>
-            </div>
-            <div class="col-1">
-                <div class="buttons border-0">
-                    <button type="button" class="py-1 btn">Status</button>
-                </div>
-            </div>
-            <div class="col-1">
-                <div class="buttons border-0">
-                    <button type="button" class="py-1 btn">Details</button>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <section id="taskSection" class="mt-2">
-
-
-    </section></div>
-    <footer class="p-1 ">
-        <div class="footer-button ml-4 d-flex">
-            <div class="col-3 text-center">
-                <button class="btn btn-default">
-                    <img src="assets/img/projects-button.png">
-                    <p>Projects</p>
-                </button>
-            </div>
-            <div class="col-3 text-center">
-                <button class="btn btn-default">
-                    <img src="assets/img/peoples-button.png">
-                    <p>People</p>
-                </button>
-            </div>
-            <a href="dashboard.html" class="col-3 text-center">
-                <button class="btn btn-default">
-                    <img src="assets/img/dashboard-button.png">
-                    <p>Dashboard</p>                        
-                </button>
-            </a>
-            <div class="col-3 text-center">
-                <button class="btn btn-default">
-                    <img src="assets/img/reports-button.png">
-                    <p>Report</p>                        
-                </button>                    
-            </div>                
-        
-        </div>
-    </footer>
+</footer>
 </main>
 <script src="https://kit.fontawesome.com/076a9262a0.js" crossorigin="anonymous"></script>
-<script>
-    $(document).ready(function(){
 
-$(".filter-button").click(function(){
-    var value = $(this).attr('data-filter');
-    
-    if(value == "all")
-    {
-        $('.filter').show('slow');
-    }
-    else
-    {
-        $(".filter").not('.'+value).hide('slow');
-        $('.filter').filter('.'+value).show('slow');
-        
-    }
-});
-
-});
-</script>
 </body>
 </html>
 
